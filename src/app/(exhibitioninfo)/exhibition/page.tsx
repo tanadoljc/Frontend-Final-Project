@@ -1,20 +1,24 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function ExhibitionPage() {
   const router = useRouter();
+  const session = useSession();
+
   return (
-    <div>
-      <h1>Exhibition Information</h1>
-      <p>Details about the exhibition will go here.</p>
-      <button
-        onClick={(e) => {
-          e.stopPropagation(), router.push('exhibition/create-exhibition');
-        }}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Create Exhibition
-      </button>
+    <div className="m-[50px]">
+      <div className="flex justify-between">
+        <h1 className="text-2xl">Exhibition List</h1>
+        {/* {session.data?.user && (
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={() => router.push('/exhibitioninfo/create')}
+          >
+            Create Exhibition
+          </button>
+        )} */}
+      </div>
     </div>
   );
 }
