@@ -8,3 +8,10 @@ export interface ExhibitionForm {
   bigBoothQuota: number;
   posterPicture: string;
 }
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  role: 'admin' | 'member';
+}
