@@ -8,13 +8,15 @@ import { User } from '../../../../interface';
 
 export default function ExhibitionPage() {
   const router = useRouter();
-  const session = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    getMe(session.data?.user?.token || '')
-      .then((u) => setUser(u.data))
-      .catch((err) => console.error(err));
+    if (status == 'authenticated') {
+      getMe(session.user.token || '')
+        .then((u) => setUser(u.data))
+        .catch((err) => console.error(err));
+    }
   }, []);
 
   return (
