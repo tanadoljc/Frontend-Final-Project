@@ -20,18 +20,16 @@ export default function ExhibitionPage() {
   }, []);
 
   return (
-    <div className="m-[50px]">
-      <div className="flex justify-between">
-        <h1 className="text-2xl">Exhibition List</h1>
-        {user && user.role == 'admin' ? (
-          <button
-            className="px-4 py-2 cursor-pointer rounded-xl border-2 border-black hover:bg-blue-500 hover:text-white transition duration-200"
-            onClick={() => router.push('/exhibition/create')}
-          >
-            Create Exhibition
-          </button>
-        ) : null}
-      </div>
+    <div className="flex justify-between max-w-5xl mx-auto p-6">
+      <h1 className="text-2xl font-bold">Exhibition List</h1>
+      {user && user.role == 'admin' ? (
+        <button
+          className="px-4 py-2 cursor-pointer rounded-xl border-2 border-black hover:bg-blue-500 hover:text-white transition duration-200"
+          onClick={() => router.push('/exhibition/create')}
+        >
+          Create Exhibition
+        </button>
+      ) : null}
     </div>
   );
 }
