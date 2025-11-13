@@ -89,6 +89,7 @@ export default function CreateExhibitionPage() {
           onChange={handleChange}
           value={form.venue}
           className="border p-2 w-full rounded-md"
+          required
         />
         <label>Date</label>
         <input
@@ -97,6 +98,7 @@ export default function CreateExhibitionPage() {
           onChange={handleChange}
           value={form.startDate}
           className="border p-2 w-full rounded-md"
+          required
         />
         {warnDate ? (
           <p className="text-red-500 text-sm">
@@ -113,6 +115,7 @@ export default function CreateExhibitionPage() {
           onChange={handleChange}
           value={form.durationDay}
           className="border p-2 w-full rounded-md"
+          required
         />
         <label htmlFor="">Small Booth</label>
         <input
@@ -122,6 +125,7 @@ export default function CreateExhibitionPage() {
           onChange={handleChange}
           value={form.smallBoothQuota}
           className="border p-2 w-full rounded-md"
+          required
         />
         <label htmlFor="">Big Booth</label>
         <input
@@ -131,6 +135,7 @@ export default function CreateExhibitionPage() {
           onChange={handleChange}
           value={form.bigBoothQuota}
           className="border p-2 w-full rounded-md"
+          required
         />
         <label htmlFor="">Poster Picture</label>
         <input
