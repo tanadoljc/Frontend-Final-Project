@@ -1,9 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import updateBooking from '@/libs/updateBooking';
+import getBooking from '@/libs/getBooking';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { Exhibition } from '../../../../../interface';
 
 export default function EditBookingPage() {
   const { id } = useParams();
@@ -11,8 +13,17 @@ export default function EditBookingPage() {
   const [boothType, setBoothType] = useState<'small' | 'big'>('small');
   const [amount, setAmount] = useState<number>(1);
   const [message, setMessage] = useState('');
+  const [exhibition, setExhibition] = useState<Exhibition | null>();
   const session = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    if (session.status === 'authenticated' && typeof id === 'string') {
+      getBooking(session.data?.user.token, id)
+        .then((data) => setExhibition(data.data.exhibition))
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   const handleUpdate = async () => {
     if (!id || Array.isArray(id)) {
@@ -31,7 +42,23 @@ export default function EditBookingPage() {
       return;
     }
 
-    setLoading(true);
+    if (
+      exhibition &&
+      boothType === 'small' &&
+      amount > exhibition?.smallBoothQuota
+    ) {
+      setMessage('Not enough quota for small booth!');
+      return;
+    }
+    if (
+      exhibition &&
+      boothType === 'big' &&
+      amount > exhibition.bigBoothQuota
+    ) {
+      setMessage('Not enough quota for big booth!');
+      return;
+    }
+
     setMessage('');
     try {
       await updateBooking(id, boothType, amount, token);
@@ -107,15 +134,7 @@ export default function EditBookingPage() {
           {loading ? 'Updating...' : 'Update Booking'}
         </button>
 
-        {message && (
-          <p
-            className={`mt-4 ${
-              message.includes('Error') ? 'text-red-600' : 'text-green-600'
-            }`}
-          >
-            {message}
-          </p>
-        )}
+        {message && <p className="mt-4 text-red-600">{message}</p>}
       </div>
     </main>
   );

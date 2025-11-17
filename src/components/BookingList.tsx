@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { BookingItem } from '../../interface';
-import getBooking from '@/libs/getBooking';
+import getBookings from '@/libs/getBookings';
 import deleteBooking from '@/libs/deleteBooking';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -15,7 +15,7 @@ export default function MyBookingList() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      getBooking(session?.user.token)
+      getBookings(session?.user.token)
         .then((data) => setBookings(data.data))
         .catch((err) => {
           console.error(err);

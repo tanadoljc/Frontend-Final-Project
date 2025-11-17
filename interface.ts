@@ -9,6 +9,20 @@ export interface ExhibitionForm {
   posterPicture: string;
 }
 
+export interface Exhibition {
+  id: string;
+  name: string;
+  description: string;
+  venue: string;
+  startDate: string;
+  durationDay: number;
+  smallBoothQuota: number;
+  bigBoothQuota: number;
+  posterPicture: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface BookingItem {
   _id: string;
   user: {
@@ -16,19 +30,7 @@ export interface BookingItem {
     name: string;
     email: string;
   };
-  exhibition: {
-    id: string;
-    name: string;
-    description: string;
-    venue: string;
-    startDate: string; // ISO string
-    durationDay: number;
-    smallBoothQuota: number;
-    bigBoothQuota: number;
-    posterPicture: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  exhibition: Exhibition;
   boothType: 'small' | 'big';
   amount: number;
   createdAt: string;
