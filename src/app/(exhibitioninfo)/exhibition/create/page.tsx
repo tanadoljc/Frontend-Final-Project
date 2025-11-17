@@ -51,6 +51,19 @@ export default function CreateExhibitionPage() {
       return;
     }
 
+    if (
+      !form.name ||
+      !form.description ||
+      !form.venue ||
+      !form.startDate ||
+      form.durationDay <= 0 ||
+      form.smallBoothQuota <= 0 ||
+      form.bigBoothQuota <= 0
+    ) {
+      alert('Please fill all fields correctly');
+      return;
+    }
+
     try {
       const res = await addExhibition(form, session.user.token);
       alert('Created successfully!');
