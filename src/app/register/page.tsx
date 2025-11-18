@@ -45,19 +45,11 @@ export default function RegisterPage() {
       setSuccess('Registration successful! Logging you in...');
 
       // Automatically sign in after registration
-      const loginRes = await signIn('credentials', {
-        redirect: false,
+      await signIn(undefined, {
         email: form.email,
         password: form.password,
+        callbackUrl: '/',
       });
-
-      if (loginRes?.error) {
-        setError(
-          'Registration successful, but login failed. Please log in manually.'
-        );
-      } else {
-        router.push('/');
-      }
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -117,9 +109,12 @@ export default function RegisterPage() {
       </form>
       <p className="mt-4 text-sm">
         Already have an account?{' '}
-        <a href="/login" className="text-blue-500 underline">
-          Login
-        </a>
+        <button
+          onClick={() => signIn(undefined, { callbackUrl: '/' })}
+          className="text-cyan-600 hover:underline cursor-pointer"
+        >
+          Sign in
+        </button>
       </p>
     </div>
   );

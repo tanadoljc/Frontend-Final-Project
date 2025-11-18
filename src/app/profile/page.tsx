@@ -1,7 +1,7 @@
 import { authOptions } from "../api/auth/[...nextauth]/authOptions"
 import { getServerSession } from "next-auth"
 import getMe from "@/libs/getMe"
-import TopMenuItem from "@/components/TopMenuItem";
+import Link from "next/link"
 
 export default async function Profile() {
   const session = await getServerSession(authOptions);
@@ -13,26 +13,32 @@ export default async function Profile() {
   // TODO: add user profile
   return (
     <main className='w-[100%] flex flex-col items-center space-y-4 gap-y-4'>
-      <div className='text-2xl mt-4'>
+      <div className='text-2xl mt-10 font-bold'>
         {profile.data.name}
       </div>
       <table className='table-auto border-separate border-spacing-2'>
         <tbody>
           <tr>
-            <td>Email</td>
+            <td className='font-bold'>Email</td>
             <td>{profile.data.email}</td>
           </tr>
           <tr>
-            <td>Tel.</td>
+            <td className='font-bold'>Tel.</td>
             <td>{profile.data.tel}</td>
           </tr>
           <tr>
-            <td>Member Since</td>
+            <td className='font-bold'>Member Since</td>
             <td>{createdAt.toString()}</td>
           </tr>
         </tbody>
       </table>
-      <TopMenuItem title="Edit Profile" pageRef="/profile/edit" />
+      <Link
+        href="/profile/edit"
+        className="inline-block px-6 py-3 bg-green-500 text-white rounded-md hover:bg-blue-700 transition"
+        aria-label="Edit Profile"
+      >
+        Edit Profile
+      </Link>
     </main>
   )
 }

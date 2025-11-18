@@ -11,7 +11,7 @@ export default async function updateExhibition(
   token: string
 ) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/exhibition/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/exhibitions/${id}`,
     {
       method: 'PUT',
       headers: {

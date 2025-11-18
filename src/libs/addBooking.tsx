@@ -5,7 +5,7 @@ export default async function addBooking(
 ) {
   console.log(form);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/booking/`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/booking`,
     {
       method: 'POST',
       headers: {
