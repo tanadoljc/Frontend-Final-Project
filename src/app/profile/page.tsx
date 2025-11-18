@@ -1,10 +1,7 @@
-import DateReserve from "@/components/DateReserve"
-import MenuItem from "@mui/material/MenuItem"
-import Select from "@mui/material/Select"
-import TextField from "@mui/material/TextField"
 import { authOptions } from "../api/auth/[...nextauth]/authOptions"
 import { getServerSession } from "next-auth"
 import getMe from "@/libs/getMe"
+import TopMenuItem from "@/components/TopMenuItem";
 
 export default async function Profile() {
   const session = await getServerSession(authOptions);
@@ -35,6 +32,7 @@ export default async function Profile() {
           </tr>
         </tbody>
       </table>
+      <TopMenuItem title="Edit Profile" pageRef="/profile/edit" />
     </main>
   )
 }

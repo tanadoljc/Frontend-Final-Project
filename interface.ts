@@ -16,7 +16,7 @@ export interface BookingForm {
 }
 
 export interface Exhibition {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   venue: string;

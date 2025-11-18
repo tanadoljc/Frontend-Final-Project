@@ -5,6 +5,7 @@ import getMe from '../../../libs/getMe'; // Adjusted import path
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { User } from '../../../../interface';
+import MyExhibitionList from '@/components/ExhibitionList';
 
 export default function ExhibitionPage() {
   const router = useRouter();
@@ -30,6 +31,8 @@ export default function ExhibitionPage() {
           Create Exhibition
         </button>
       ) : null}
+
+      <MyExhibitionList></MyExhibitionList>
     </div>
   );
 }
