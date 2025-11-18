@@ -34,10 +34,8 @@ export default function TopMenu() {
 
         <div className="flex items-center h-full px-4">
           {session ? (
-            <div>
-              <p className="inline mx-4">
-                {session.user.name} ({user?.role})
-              </p>
+            <div className="flex gap-x-2">
+              <TopMenuItem title={session.user.name + ' (' + user?.role + ')'} pageRef="/profile" />
               <button
                 onClick={() => signOut({ callbackUrl: '/' })}
                 className="text-red-500 font-bold hover:underline cursor-pointer"

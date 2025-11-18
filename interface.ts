@@ -9,6 +9,12 @@ export interface ExhibitionForm {
   posterPicture: string;
 }
 
+export interface BookingForm {
+  exhibition: string;
+  boothType: 'small' | 'big';
+  amount: number;
+}
+
 export interface Exhibition {
   id: string;
   name: string;
