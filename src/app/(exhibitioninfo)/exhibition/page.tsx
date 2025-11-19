@@ -5,9 +5,8 @@ import getExhibitions from '@/libs/getExhibitions';
 import deleteExhibition from '@/libs/deleteExhibition';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import checkImageUrl from '@/utils/checkImageUrl'; // <- new import
+import checkImageUrl from '@/utils/checkImageUrl';
 
-// Define a map to store the image validation status for each exhibition ID
 interface ImageValidationMap {
   [exhibitionId: string]: boolean;
 }
@@ -18,9 +17,24 @@ export default function ExhibitionList() {
   const [error, setError] = useState<string | null>(null);
   const [imageValidities, setImageValidities] = useState<ImageValidationMap>(
     {}
-  ); // New state for image validation
+  );
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const SEARCH_FIELDS = [
+    'name',
+    'description',
+    'venue',
+    'startDate',
+    'durationDay',
+    'smallBoothQuota',
+    'bigBoothQuota',
+  ] as const;
+  type SearchField = (typeof SEARCH_FIELDS)[number];
+  const [selectedFields, setSelectedFields] = useState<Record<string, boolean>>(
+    { name: true, description: true }
+  );
 
   console.log(session);
 
@@ -74,7 +88,7 @@ export default function ExhibitionList() {
 
     try {
       await deleteExhibition(id, session?.user.token);
-      setExhibitions((prev) => prev.filter((b) => b._id !== id)); // update UI
+      setExhibitions((prev) => prev.filter((b) => b._id !== id));
     } catch (err) {
       console.error(err);
       alert('Failed to delete the exhibition.');
@@ -99,6 +113,34 @@ export default function ExhibitionList() {
     router.push(`/exhibition/create-booking/${id}`);
   };
 
+  const getFieldString = (ex: Exhibition, field: SearchField) => {
+    const raw = (ex as any)[field];
+    if (raw == null) return '';
+    if (field === 'startDate') {
+      try {
+        return new Date(raw).toLocaleString();
+      } catch {
+        return String(raw);
+      }
+    }
+    return String(raw);
+  };
+
+  const filteredExhibitions = exhibitions.filter((ex) => {
+    if (!searchTerm || searchTerm.trim() === '') return true;
+
+    const q = searchTerm.toLowerCase();
+    const activeFields = Object.keys(selectedFields).filter(
+      (k) => selectedFields[k]
+    );
+    if (activeFields.length === 0) return true;
+
+    return activeFields.some((field) => {
+      const value = getFieldString(ex, field as SearchField).toLowerCase();
+      return value.includes(q);
+    });
+  });
+
   if (loading)
     return (
       <div className="flex flex-col items-center mt-[100px]">
@@ -111,11 +153,57 @@ export default function ExhibitionList() {
 
   return (
     <div className="max-w-5xl mx-auto p-6">
-      {exhibitions.length === 0 ? (
-        <p className="text-gray-500">You have no exhibitions yet.</p>
+      <div className="mb-6">
+        <label className="block mb-2 text-sm font-medium">
+          Search exhibitions
+        </label>
+        <div className="flex gap-2">
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Type to search..."
+            className="flex-1 border rounded-md p-2"
+          />
+          <button
+            onClick={() => {
+              setSearchTerm('');
+              setSelectedFields({ name: true, description: true });
+            }}
+            className="px-3 py-2 border rounded-md bg-yellow-600"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="mt-3 flex flex-wrap gap-3 text-sm">
+          {SEARCH_FIELDS.map((f) => (
+            <label key={f} className="inline-flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={!!selectedFields[f]}
+                onChange={(e) =>
+                  setSelectedFields((prev) => ({
+                    ...prev,
+                    [f]: e.target.checked,
+                  }))
+                }
+                className="w-4 h-4"
+              />
+              <span className="capitalize">{f}</span>
+            </label>
+          ))}
+          <span className="text-xs text-gray-500 ml-2">
+            (Selected fields are ORed — exhibition must match at least one checked
+            field)
+          </span>
+        </div>
+      </div>
+
+      {filteredExhibitions.length === 0 ? (
+        <p>You have no exhibitions yet.</p>
       ) : (
         <div className="grid md:grid-cols-2 gap-4">
-          {exhibitions.map((exhibition) => {
+          {filteredExhibitions.map((exhibition) => {
             const isImageValid = imageValidities[exhibition._id];
 
             return (
@@ -141,7 +229,7 @@ export default function ExhibitionList() {
                     ) : (
                       <div className="w-[30%] h-[100px] bg-gray-100 animate-pulse rounded-lg"></div>
                     )}
-                    <h2 className="text-lg font-semibold mb-2">
+                    <h2 className="text-lg font-semibold mb-2 text-gray-700">
                       {exhibition.name}
                     </h2>
                   </div>
@@ -150,30 +238,24 @@ export default function ExhibitionList() {
                       <div className="flex gap-3">
                         <button
                           onClick={() => handleEdit(exhibition._id)}
-                          className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-blue-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-blue-500"
+                          className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-blue-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-blue-500 text-white"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(exhibition._id)}
-                          className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-red-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-red-500"
+                          className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-red-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-red-500 text-white"
                         >
                           Delete
                         </button>
                       </div>
-                      <button
-                        onClick={() => handleBooking(exhibition._id)}
-                        className="border w-full h-[50px] rounded-md cursor-pointer bg-green-500 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-green-600"
-                      >
-                        Book
-                      </button>
                     </div>
                   )}
 
                   {session && session.user.role === 'member' && (
                     <button
                       onClick={() => handleBooking(exhibition._id)}
-                      className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-green-500 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-green-600"
+                      className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-green-500 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-green-600 text-white"
                     >
                       Book
                     </button>

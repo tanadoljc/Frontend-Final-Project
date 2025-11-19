@@ -1,4 +1,4 @@
-import userLogIn from '@/libs/userLogin';
+import userLogIn from '@/libs/userLogIn';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -56,8 +56,8 @@ export const authOptions: AuthOptions = {
         httpOnly: true,
         sameSite: 'lax',
         secure: true,
-        path: '/',
-        domain: 'frontend-final-project-iota.vercel.app',
+        path: '/',  
+        // domain: 'localhost:3000',
       },
     },
   },
