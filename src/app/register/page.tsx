@@ -11,6 +11,7 @@ export default function RegisterPage() {
     email: '',
     tel: '',
     password: '',
+    profilePicture: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -87,6 +88,14 @@ export default function RegisterPage() {
           onChange={handleChange}
           className="border p-2 rounded"
           required
+        />
+        <input
+          type="url"
+          name="profilePicture"
+          value={form.profilePicture}
+          placeholder="Profile Picture URL"
+          onChange={handleChange}
+          className="border p-2 rounded"
         />
         <input
           type="password"

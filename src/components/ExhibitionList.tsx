@@ -5,6 +5,7 @@ import getExhibitions from '@/libs/getExhibitions';
 import deleteExhibition from '@/libs/deleteExhibition';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import checkImageUrl from '@/utils/checkImageUrl'; // <- new import
 
 // Define a map to store the image validation status for each exhibition ID
 interface ImageValidationMap {
@@ -20,19 +21,6 @@ export default function ExhibitionList() {
   const router = useRouter();
 
   console.log(session);
-
-  const checkImageUrl = (url: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-      if (typeof window === 'undefined') {
-        resolve(false);
-        return;
-      }
-      const img = new window.Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = url;
-    });
-  };
 
   useEffect(() => {
     const fetchData = async () => {
