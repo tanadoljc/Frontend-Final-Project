@@ -153,6 +153,17 @@ export default function ExhibitionList() {
 
   return (
     <div className="max-w-5xl mx-auto p-6">
+      <div className="flex justify-between max-w-5xl mx-auto p-6">
+        <h1 className="text-3xl font-bold">Exhibition List</h1>
+        {session && session.user.role === 'admin' ? (
+          <button
+            className="px-4 py-2 cursor-pointer rounded-xl border-2 border-black hover:bg-blue-500 hover:text-white transition duration-200"
+            onClick={() => router.push('/exhibition/create')}
+          >
+            Create Exhibition
+          </button>
+        ) : null}
+      </div>
       <div className="mb-6">
         <label className="block mb-2 text-sm font-medium">
           Search exhibitions

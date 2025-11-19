@@ -160,7 +160,7 @@ export default function CreateExhibitionPage() {
         />
 
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full my-4"
           type="submit"
         >
           Create
