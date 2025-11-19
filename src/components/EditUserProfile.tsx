@@ -3,7 +3,18 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function EditUserProfile({initialData, token}: {initialData: {name: string; email: string; tel: string, profilePicture: string}, token: string}) {
+export default function EditUserProfile({
+  initialData,
+  token,
+}: {
+  initialData: {
+    name: string;
+    email: string;
+    tel: string;
+    profilePicture: string;
+  };
+  token: string;
+}) {
   const router = useRouter();
   const [form, setForm] = useState({
     name: initialData.name || '',
@@ -61,11 +72,11 @@ export default function EditUserProfile({initialData, token}: {initialData: {nam
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h2 className="text-2xl mb-4 font-bold">Edit Profile</h2>
       <form onSubmit={handleSubmit} className="flex flex-col w-80 space-y-3">
-        <img
+        {/* <img
           src={form.profilePicture}
           alt="Profile Picture"
           className="rounded-lg w-[75%] bg-black my-8 mx-auto"
-        />
+        /> */}
         <input
           type="text"
           name="name"
