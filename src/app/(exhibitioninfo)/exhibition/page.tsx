@@ -28,7 +28,7 @@ export default function ExhibitionPage() {
         <h1 className="text-2xl font-bold">Exhibition List</h1>
         {user && user.role == 'admin' ? (
           <button
-            className="px-4 py-2 cursor-pointer rounded-xl border-2 border-black hover:bg-blue-500 hover:text-white transition duration-200"
+            className="px-4 py-2 cursor-pointer rounded-xl border-2 hover:bg-blue-500 hover:text-white transition duration-200"
             onClick={() => router.push('/exhibition/create')}
           >
             Create Exhibition

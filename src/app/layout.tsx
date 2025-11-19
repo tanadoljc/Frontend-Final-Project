@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import NextAuthProvider from '@/providers/NextAuthProvider';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import TopMenu from '@/components/TopMenu';
+import { NextThemeProvider } from '@/NextThemeProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,16 +28,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
-  // console.log(session.user);
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-white text-gray-900`}
       >
-        <NextAuthProvider session={session}>
-          <TopMenu />
-          {children}
-        </NextAuthProvider>
+        <NextThemeProvider>
+          <NextAuthProvider session={session}>
+            <TopMenu />
+            {children}
+          </NextAuthProvider>
+        </NextThemeProvider>
       </body>
     </html>
   );

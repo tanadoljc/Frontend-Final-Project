@@ -139,7 +139,7 @@ export default function ExhibitionList() {
                     ) : (
                         <div className="w-[30%] h-[100px] bg-gray-100 animate-pulse rounded-lg"></div>
                     )}
-                    <h2 className="text-lg font-semibold mb-2">
+                    <h2 className="text-lg font-semibold mb-2 text-gray-700">
                       {exhibition.name}
                     </h2>
                   </div>
@@ -147,13 +147,13 @@ export default function ExhibitionList() {
                     <div className="flex gap-3">
                       <button
                         onClick={() => handleEdit(exhibition._id)}
-                        className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-blue-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-blue-500"
+                        className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-blue-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-blue-500 text-white"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(exhibition._id)}
-                        className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-red-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-red-500"
+                        className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-red-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-red-500 text-white"
                       >
                         Delete
                       </button>
@@ -163,7 +163,7 @@ export default function ExhibitionList() {
                   { session && session.user.role === 'member' && (
                     <button
                       onClick={() => handleBooking(exhibition._id)}
-                      className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-green-500 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-green-600"
+                      className="border w-[70px] h-[50px] rounded-md cursor-pointer bg-green-500 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-green-600 text-white"
                     >
                       Book
                     </button>

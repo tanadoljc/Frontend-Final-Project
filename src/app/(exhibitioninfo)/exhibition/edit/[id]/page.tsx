@@ -117,7 +117,7 @@ export default function EditExhibitionPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center bg-gray-50">
+    <main className="min-h-screen flex flex-col justify-center items-center">
       <div className="bg-white shadow-lg rounded-2xl p-8 text-center w-[400px]">
         <h2 className="text-xl font-semibold mb-2 text-gray-700">
           Edit Exhibition ID:
@@ -129,33 +129,33 @@ export default function EditExhibitionPage() {
           placeholder="Name"
           onChange={handleChange}
           value={form.name}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
           required
         />
-        <label>Description</label>
+        <label className="text-black">Description</label>
         <textarea
           name="description"
           placeholder="Description"
           onChange={handleChange}
           value={form.description}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
         />
-        <label>Venue</label>
+        <label className="text-black">Venue</label>
         <input
           name="venue"
           placeholder="Venue"
           onChange={handleChange}
           value={form.venue}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
           required
         />
-        <label>Date</label>
+        <label className="text-black">Date</label>
         <input
           type="date"
           name="startDate"
           onChange={handleChange}
           value={form.startDate}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
           required
         />
         {warnDate ? (
@@ -165,49 +165,49 @@ export default function EditExhibitionPage() {
         ) : (
           ''
         )}
-        <label htmlFor="">Duration Day</label>
+        <label htmlFor="" className="text-black">Duration Day</label>
         <input
           name="durationDay"
           type="number"
           placeholder="Duration (days)"
           onChange={handleChange}
           value={form.durationDay}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
           required
         />
-        <label htmlFor="">Small Booth</label>
+        <label htmlFor="" className="text-black">Small Booth</label>
         <input
           name="smallBoothQuota"
           type="number"
           placeholder="Small booth quota"
           onChange={handleChange}
           value={form.smallBoothQuota}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
           required
         />
-        <label htmlFor="">Big Booth</label>
+        <label htmlFor="" className="text-black">Big Booth</label>
         <input
           name="bigBoothQuota"
           type="number"
           placeholder="Big booth quota"
           onChange={handleChange}
           value={form.bigBoothQuota}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
           required
         />
-        <label htmlFor="">Poster Picture</label>
+        <label htmlFor="" className="text-black">Poster Picture</label>
         <input
           name="posterPicture"
           placeholder="Poster URL"
           onChange={handleChange}
           value={form.posterPicture}
-          className="border p-2 w-full rounded-md"
+          className="border p-2 w-full rounded-md text-black"
         />
 
         <button
           onClick={handleUpdate}
           disabled={loading}
-          className={`px-6 py-2 rounded-lg text-white ${
+          className={`px-6 py-2 rounded-lg text-white my-4 ${
             loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-700'
           }`}
         >

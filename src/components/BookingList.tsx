@@ -74,20 +74,20 @@ export default function MyBookingList() {
             >
               <div className="flex justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold mb-2">
+                  <h2 className="text-lg font-semibold mb-2 text-gray-700">
                     {booking.exhibition.name}
                   </h2>
                 </div>
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleEdit(booking._id)}
-                    className="border w-[70px] rounded-md cursor-pointer bg-blue-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-blue-500"
+                    className="border w-[70px] rounded-md cursor-pointer bg-blue-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-blue-500 text-white"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(booking._id)}
-                    className="border w-[70px] rounded-md cursor-pointer bg-red-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-red-500"
+                    className="border w-[70px] rounded-md cursor-pointer bg-red-400 transition duration-200 hover:shadow-xl hover:text-white hover:border-black hover:bg-red-500 text-white"
                   >
                     Delete
                   </button>

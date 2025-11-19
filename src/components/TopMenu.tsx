@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import TopMenuItem from './TopMenuItem';
+import ThemeToggle from './ThemeToggle';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { User } from '../../interface';
@@ -23,9 +24,9 @@ export default function TopMenu() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-30 h-[75px] border-b-2 border-black bg-white flex items-center justify-between px-4">
+      <header className="fixed top-0 left-0 right-0 z-30 h-[75px] border-b-2 flex items-center justify-between px-4">
         <div className="flex gap-9">
-          <Link href="/" className="text-black-400 font-bold text-xl m-2">
+          <Link href="/" className="font-bold text-xl m-2">
             Exhibition
           </Link>
           <TopMenuItem title="Exhibition List" pageRef="/exhibition" />
@@ -60,6 +61,9 @@ export default function TopMenu() {
               </button>
             </div>
           )}
+          <div className="mx-4 bg-gray-300 dark:bg-gray-500 p-2 rounded-2xl">
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 

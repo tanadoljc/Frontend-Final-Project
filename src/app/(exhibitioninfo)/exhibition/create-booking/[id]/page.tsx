@@ -124,7 +124,7 @@ export default function CreateBookingPage() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center bg-gray-50">
+    <main className="min-h-screen flex flex-col justify-center items-center">
       <div className="bg-white shadow-lg rounded-2xl p-8 text-center w-[400px]">
         <h2 className="text-xl font-semibold mb-2 text-gray-700">
           Book This Exhibition
@@ -136,7 +136,7 @@ export default function CreateBookingPage() {
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Booth Type
           </span>
-          <label className="inline-flex items-center gap-2">
+          <label className="inline-flex items-center gap-2 text-black">
             <input
               type="radio"
               name="boothType"
@@ -147,21 +147,21 @@ export default function CreateBookingPage() {
             />
             Small
           </label>
-          <label className="inline-flex items-center gap-2">
+          <label className="inline-flex items-center gap-2 text-black">
             <input
               type="radio"
               name="boothType"
               value="big"
               checked={boothType === 'big'}
               onChange={() => setBoothType('big')}
-              className="form-radio"
+              className="form-radio text-black"
             />
             Big
           </label>
         </div>
 
         <div className="mb-6 text-left">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1 text-black">
             Amount
           </label>
           <input
@@ -169,7 +169,7 @@ export default function CreateBookingPage() {
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
             min={1}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
           />
         </div>
 

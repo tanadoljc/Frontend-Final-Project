@@ -1,16 +1,15 @@
-'use client';
+'use client'
 
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Link from 'next/link';
 
-// TODO: light/dark mode toggle
 export default function Home() {
   const images = Array.from({ length: 9 }, (_, i) => `/img/cpjobfair${i + 1}.jpg`);
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-center">
-      <h1 className='text-center text-4xl my-8 font-bold'>Welcome to the Exhibition Booking System!</h1>
+    <main className="flex flex-col items-center justify-center min-h-screen text-center">
+      <h1 className='text-center text-4xl my-8 font-bold'>Welcome to the Exhibition Booth Booking System!</h1>
 
       <Carousel showThumbs={false} autoPlay infiniteLoop>
         {images.map((imageSrc, idx) => (
