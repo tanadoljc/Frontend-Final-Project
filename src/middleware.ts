@@ -14,10 +14,12 @@ export async function middleware(req: NextRequest) {
   }
 
   const restrictedForMember = ['/exhibition/create', '/exhibition/edit'];
+  const allowedForMember = ['/mybooking', '/profile', '/exhibition/create-booking'];
 
   if (
     token.role === 'member' &&
-    restrictedForMember.some((path) => req.nextUrl.pathname.startsWith(path))
+    (restrictedForMember.some((path) => req.nextUrl.pathname.startsWith(path)) &&
+      !allowedForMember.some((path) => req.nextUrl.pathname.startsWith(path)))
   ) {
     return NextResponse.redirect(new URL('/', req.url));
   }
