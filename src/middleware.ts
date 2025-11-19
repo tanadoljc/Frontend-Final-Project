@@ -1,7 +1,8 @@
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export async function middleware(req: any) {
+export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
@@ -11,6 +12,7 @@ export async function middleware(req: any) {
   return NextResponse.next();
 }
 
+// routes ที่ middleware จะตรวจ
 export const config = {
   matcher: [
     '/mybooking/:path*',
