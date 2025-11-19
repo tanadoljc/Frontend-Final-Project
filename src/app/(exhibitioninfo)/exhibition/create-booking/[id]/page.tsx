@@ -82,7 +82,7 @@ export default function CreateBookingPage() {
     if (
       exhibition &&
       boothType === 'small' &&
-      amount > exhibition?.smallBoothQuota
+      amount > exhibition.smallBoothQuota
     ) {
       setMessage('Not enough quota for small booth!');
       return;

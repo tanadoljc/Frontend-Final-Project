@@ -6,6 +6,7 @@ import getBooking from '@/libs/getBooking';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Exhibition } from '../../../../../interface';
+import getBookings from '@/libs/getBookings';
 
 export default function EditBookingPage() {
   const { id } = useParams();
@@ -14,15 +15,36 @@ export default function EditBookingPage() {
   const [amount, setAmount] = useState<number>(1);
   const [message, setMessage] = useState('');
   const [exhibition, setExhibition] = useState<Exhibition | null>();
+  const [oldBoothType, setOldBoothType] = useState<'small' | 'big'>('small');
+  const [oldAmount, setOldAmount] = useState<number>(0);
+  const [oldTotalBooked, setOldTotalBooked] = useState<number>(0);
   const session = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (session.status === 'authenticated' && typeof id === 'string') {
-      getBooking(session.data?.user.token, id)
-        .then((data) => setExhibition(data.data.exhibition))
-        .catch((err) => console.log(err));
+    const fetchData = async() => {
+      if (session.status === 'authenticated' && typeof id === 'string') {
+        await getBooking(session.data?.user.token, id)
+          .then((data) => {
+            setExhibition(data.data.exhibition)
+            setOldBoothType(data.data.boothType);
+            setOldAmount(data.data.amount);
+
+            console.log(data.data.boothType, data.data.amount, data.data.exhibition.smallBoothQuota, data.data.exhibition.bigBoothQuota);
+          })
+          .catch((err) => console.log(err));
+
+        let totalBooked = 0;
+        await getBookings(session.data?.user.token)
+          .then((data) => {
+            totalBooked += data.data.amount;
+          })
+          .catch((err) => console.log(err));
+        setOldTotalBooked(totalBooked);
+      }
     }
+
+    fetchData();
   }, []);
 
   const handleUpdate = async () => {
@@ -45,7 +67,7 @@ export default function EditBookingPage() {
     if (
       exhibition &&
       boothType === 'small' &&
-      amount > exhibition?.smallBoothQuota
+      amount > exhibition.smallBoothQuota + (oldBoothType === 'small' ? oldAmount : 0)
     ) {
       setMessage('Not enough quota for small booth!');
       return;
@@ -53,9 +75,18 @@ export default function EditBookingPage() {
     if (
       exhibition &&
       boothType === 'big' &&
-      amount > exhibition.bigBoothQuota
+      amount > exhibition.bigBoothQuota + (oldBoothType === 'big' ? oldAmount : 0)
     ) {
       setMessage('Not enough quota for big booth!');
+      return;
+    }
+
+    console.log(oldTotalBooked, amount, oldAmount, oldBoothType);
+
+    if (oldTotalBooked + amount - oldAmount > 6) {
+      setMessage(
+        `You cannot book more than 6 booths in this exhibition. You already booked ${oldTotalBooked - oldAmount} booths.`
+      );
       return;
     }
 
