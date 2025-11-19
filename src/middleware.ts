@@ -13,6 +13,15 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/api/auth/signin', req.url));
   }
 
+  const restrictedForMember = ['/exhibition/create', '/exhibition/edit'];
+
+  if (
+    token.role === 'member' &&
+    restrictedForMember.some((path) => req.nextUrl.pathname.startsWith(path))
+  ) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
   return NextResponse.next();
 }
 

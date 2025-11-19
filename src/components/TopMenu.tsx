@@ -8,8 +8,10 @@ import { useEffect, useState } from 'react';
 import { User } from '../../interface';
 import getMe from '@/libs/getMe';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 
 export default function TopMenu() {
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const { data: session, status } = useSession();
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
@@ -24,7 +26,11 @@ export default function TopMenu() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-30 h-[75px] border-b-2 flex items-center justify-between px-4 bg-white">
+      <header
+        className={`fixed top-0 left-0 right-0 z-30 h-[75px] border-b-2 flex items-center justify-between px-4 ${
+          theme === 'dark' ? 'bg-[#171717' : 'bg-white'
+        }`}
+      >
         <div className="flex gap-9">
           <Link href="/" className="font-bold text-xl m-2">
             Exhibition
