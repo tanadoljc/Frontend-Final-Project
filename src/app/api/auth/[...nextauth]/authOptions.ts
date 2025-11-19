@@ -46,4 +46,16 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: true,
+        path: '/',
+        domain: 'frontend-final-project-iota.vercel.app',
+      },
+    },
+  },
 };
