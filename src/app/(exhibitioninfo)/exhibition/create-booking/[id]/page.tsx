@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import updateBooking from '@/libs/updateBooking';
-import getBooking from '@/libs/getBooking';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { BookingForm, Exhibition } from '../../../../../../interface';
+import getBookings from '@/libs/getBookings';
 import addBooking from '@/libs/addBooking';
+import { BookingItem } from '../../../../../../interface';
 import getExhibition from '@/libs/getExhibition';
 
 export default function CreateBookingPage() {
@@ -18,20 +18,56 @@ export default function CreateBookingPage() {
   const session = useSession();
   const router = useRouter();
   const [exhibition, setExhibition] = useState<Exhibition | null>(null);
+  const [totalBooked, setTotalBooked] = useState(0);
 
   useEffect(() => {
-    if (session.status === 'authenticated' && typeof id === 'string') {
-      getExhibition(id)
-        .then((data) => setExhibition(data.data))
+    if (session.status === 'authenticated') {
+      if (typeof id === 'string') {
+        getExhibition(id)
+          .then((data) => setExhibition(data.data))
+          .catch((err) => console.log(err));
+      }
+
+      getBookings(session.data.user.token)
+        .then((bookings) => {
+          const userId = session.data.user._id;
+
+          if (!Array.isArray(bookings.data)) return;
+
+          // Filter booking ของ user + exhibition
+          const filtered = bookings.data.filter(
+            (b: BookingItem) => b.user._id === userId && b.exhibition._id === id
+          );
+
+          // sum จำนวนที่จองไปแล้ว
+          var tmp = filtered.reduce(
+            (sum: any, b: BookingItem) => sum + b.amount,
+            0
+          );
+          setTotalBooked(tmp);
+        })
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [session, id]);
 
   const handleCreate = async () => {
     const token = session.data?.user.token;
     if (!token) {
       setMessage('User token missing. Please login again.');
       return;
+    }
+    console.log(totalBooked);
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0); // เวลาเริ่มต้นของวันนี้
+
+    if (exhibition) {
+      const startDate = new Date(exhibition.startDate); // สร้าง Date object จริง
+      startDate.setHours(0, 0, 0, 0); // reset เวลาเพื่อเปรียบเทียบเฉพาะวัน
+
+      if (startDate < todayDate) {
+        setMessage('The Exhibition has already started!');
+        return;
+      }
     }
 
     if (!boothType) {
@@ -60,13 +96,20 @@ export default function CreateBookingPage() {
       return;
     }
 
+    if (totalBooked + amount > 6) {
+      setMessage(
+        `You cannot book more than 6 booths in this exhibition. You already booked ${totalBooked} booths.`
+      );
+      return;
+    }
+
     setMessage('');
     try {
       const form: BookingForm = {
         exhibition: String(id),
         boothType,
         amount,
-      }
+      };
 
       await addBooking(form, token);
       setMessage('Booking created successfully!');
