@@ -57,6 +57,7 @@ export const authOptions: AuthOptions = {
         sameSite: 'lax',
         secure: true,
         path: '/',
+        domain: 'frontend-final-project-iota.vercel.app',
       },
     },
   },
