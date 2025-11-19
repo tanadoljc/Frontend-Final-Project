@@ -24,7 +24,7 @@ export default function TopMenu() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-30 h-[75px] border-b-2 flex items-center justify-between px-4">
+      <header className="fixed top-0 left-0 right-0 z-30 h-[75px] border-b-2 flex items-center justify-between px-4 bg-white">
         <div className="flex gap-9">
           <Link href="/" className="font-bold text-xl m-2">
             Exhibition
@@ -36,7 +36,10 @@ export default function TopMenu() {
         <div className="flex items-center h-full px-4">
           {session ? (
             <div className="flex gap-x-2">
-              <TopMenuItem title={session.user.name + ' (' + user?.role + ')'} pageRef="/profile" />
+              <TopMenuItem
+                title={session.user.name + ' (' + user?.role + ')'}
+                pageRef="/profile"
+              />
               <button
                 onClick={() => signOut({ callbackUrl: '/' })}
                 className="text-red-500 font-bold hover:underline cursor-pointer"
