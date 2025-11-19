@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function EditUserProfile({initialData, token}: {initialData: {name: string; email: string; tel: string}, token: string}) {
+export default function EditUserProfile({initialData, token}: {initialData: {name: string; email: string; tel: string, profilePicture: string}, token: string}) {
   const router = useRouter();
   const [form, setForm] = useState({
     name: initialData.name || '',
     email: initialData.email || '',
     tel: initialData.tel || '',
+    profilePicture: initialData.profilePicture || '',
     oldPassword: '',
     newPassword: '',
     confirmNewPassword: '',
@@ -60,6 +61,11 @@ export default function EditUserProfile({initialData, token}: {initialData: {nam
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h2 className="text-2xl mb-4 font-bold">Edit Profile</h2>
       <form onSubmit={handleSubmit} className="flex flex-col w-80 space-y-3">
+        <img
+          src={form.profilePicture}
+          alt="Profile Picture"
+          className="rounded-lg w-[75%] bg-black my-8 mx-auto"
+        />
         <input
           type="text"
           name="name"
@@ -88,8 +94,16 @@ export default function EditUserProfile({initialData, token}: {initialData: {nam
           required
         />
         <input
+          type="url"
+          name="profilePicture"
+          placeholder="Profile Picture URL"
+          value={form.profilePicture}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
           type="password"
-          name="old-password"
+          name="oldPassword"
           placeholder="Old Password"
           value={form.oldPassword}
           onChange={handleChange}
@@ -97,7 +111,7 @@ export default function EditUserProfile({initialData, token}: {initialData: {nam
         />
         <input
           type="password"
-          name="new-password"
+          name="newPassword"
           placeholder="New Password"
           value={form.newPassword}
           onChange={handleChange}
@@ -105,7 +119,7 @@ export default function EditUserProfile({initialData, token}: {initialData: {nam
         />
         <input
           type="password"
-          name="confirm-new-password"
+          name="confirmNewPassword"
           placeholder="Confirm New Password"
           value={form.confirmNewPassword}
           onChange={handleChange}
@@ -113,7 +127,7 @@ export default function EditUserProfile({initialData, token}: {initialData: {nam
         />
         <button
           disabled={loading}
-          className="bg-green-500 text-white py-2 rounded hover:bg-green-600 disabled:opacity-50"
+          className="bg-green-500 text-white my-4 py-2 rounded hover:bg-green-600 disabled:opacity-50"
         >
           {loading ? 'Editing...' : 'Edit'}
         </button>

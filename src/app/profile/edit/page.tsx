@@ -8,6 +8,7 @@ export default async function EditProfile() {
     name: '',
     email: '',
     tel: '',
+    profilePicture: '',
   };
   const session = await getServerSession(authOptions);
   if (!session || !session.user.token) return null;
@@ -18,6 +19,7 @@ export default async function EditProfile() {
       name: res.data.name,
       email: res.data.email,
       tel: res.data.tel,
+      profilePicture: res.data.profilePicture,
     };
   } catch (error) {
     console.error('Failed to fetch user data:', error);
