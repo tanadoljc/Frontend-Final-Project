@@ -169,7 +169,7 @@ export default function ExhibitionList() {
               setSearchTerm('');
               setSelectedFields({ name: true, description: true });
             }}
-            className="px-3 py-2 border rounded-md bg-yellow-600"
+            className="px-3 py-2 border rounded-md bg-yellow-400"
           >
             Clear
           </button>
@@ -193,8 +193,8 @@ export default function ExhibitionList() {
             </label>
           ))}
           <span className="text-xs text-gray-500 ml-2">
-            (Selected fields are ORed — exhibition must match at least one checked
-            field)
+            (Selected fields are ORed — exhibition must match at least one
+            checked field)
           </span>
         </div>
       </div>
