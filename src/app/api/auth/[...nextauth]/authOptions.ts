@@ -1,4 +1,4 @@
-import userLogIn from '@/libs/userLogIn';
+import userLogIn from '@/libs/userLogin';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -46,4 +46,17 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+        path: '/',
+        domain: '.vercel.app',
+      },
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
